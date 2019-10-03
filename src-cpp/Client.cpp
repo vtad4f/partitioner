@@ -2,12 +2,20 @@
 
 #include "Client.h"
 
+#include "Getter.h"
+#include "Handler.h"
+#include "Talker.h"
+
+
 ////////////////////////////////////////////////////////////////////////////////
 ///
 ///   @brief  Constructor
 ///
 ////////////////////////////////////////////////////////////////////////////////
-Client::Client()
+Client::Client(Getter* pGetter, Handler* pHandler, Talker* pTalker)
+   : m_pGetter(pGetter)
+   , m_pHandler(pHandler),
+   , m_pTalker(pTalker)
 {
    
 }
@@ -20,5 +28,16 @@ Client::Client()
 Client::~Client()
 {
    
+}
+
+////////////////////////////////////////////////////////////////////////////////
+///
+///   @brief  Depth First Search
+///
+////////////////////////////////////////////////////////////////////////////////
+void Client::DFS()
+{
+   m_pHandler->Read(m_pGetter->Current());
+   m_pGetter->Next()
 }
 
