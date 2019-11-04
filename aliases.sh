@@ -10,7 +10,6 @@ function reload
    source aliases.sh
 }
 
-
 function _Run
 {
    pushd "$1" > /dev/null 2>&1
@@ -18,7 +17,7 @@ function _Run
    popd > /dev/null 2>&1
 }
 
-function gen      { _Run src-py python gen.py $1 $2 ; }
+function gen      { _Run src-py python gen.py $@ ; }
 function gen.less { less src-py/random_graph ; }
 
 function fsm      { _Run fsm ./gSpan-64 ../src-py/random_graph ; }

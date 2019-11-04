@@ -40,10 +40,14 @@ if __name__ == '__main__':
             if this_vertex != other_vertex:
                
                # Don't write the same edge twice
-               edge = frozenset([this_vertex, other_vertex])
-               if not edge in edges:
-                  edges.add(edge)
+               directed = [this_vertex, other_vertex]
+               undirected = frozenset(directed)
+               if not undirected in edges:
+                  edges.add(undirected)
                   
-                  f.write('e {0} {1} {2}\n'.format(this_vertex, other_vertex, random.choice(Label.EDGE)))
+                  success = True
+                  
+                  random.shuffle(directed)
+                  f.write('e {0} {1} {2}\n'.format(directed[0], directed[1], random.choice(Label.EDGE)))
                   
                   
