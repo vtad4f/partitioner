@@ -5,8 +5,11 @@ import random
 
 
 class Label:
-   VERTEX = "abcdefghijklmnopqrstuvwxyz"
-   EDGE   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+   INT_VERTEX = list(range(3))
+   INT_EDGE   = list(range(2))
+   
+   STR_VERTEX = "abcdefghijklmnopqrstuvwxyz"
+   STR_EDGE   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
    
    
 if __name__ == '__main__':
@@ -24,7 +27,7 @@ if __name__ == '__main__':
       # Add vertices
       vertices = range(int(args.v))
       for v in vertices:
-         f.write('v {0} {1}\n'.format(v, random.choice(Label.VERTEX)))
+         f.write('v {0} {1}\n'.format(v, random.choice(Label.INT_VERTEX)))
          
       # Add edges
       edges = set()
@@ -48,6 +51,6 @@ if __name__ == '__main__':
                   success = True
                   
                   random.shuffle(directed)
-                  f.write('e {0} {1} {2}\n'.format(directed[0], directed[1], random.choice(Label.EDGE)))
+                  f.write('e {0} {1} {2}\n'.format(directed[0], directed[1], random.choice(Label.INT_EDGE)))
                   
                   
