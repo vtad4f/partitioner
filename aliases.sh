@@ -21,4 +21,5 @@ function gen      { _Run src-py python gen.py $@ ; }
 function gen.less { less src-py/random_graph ; }
 
 function fsm      { _Run fsm ./gSpan-64 -f ../src-py/random_graph $@ ; }
+function fsm.cpp  { cp src-py/random_graph fsm/Chemical_340 ; _Run fsm ./gspan ; }
 function fsm.less { less fsm/output.txt ; }
