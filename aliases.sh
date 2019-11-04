@@ -7,6 +7,7 @@ function reload
 {
    git fetch
    git rebase origin/master
+   source aliases.sh
 }
 
 
