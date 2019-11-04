@@ -1,8 +1,15 @@
 #!/bin/bash
 
 function clean { git clean -dfqX ; }
-function reload { git fetch ; git checkout -B master origin/master ; }
 function x { git update-index --chmod=+x $1 ; }
+
+function reload
+{
+   git fetch
+   git branch -m local
+   git checkout -b master origin/master
+   git branch -d local
+}
 
 function run.fsm
 {
