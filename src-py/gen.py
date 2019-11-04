@@ -30,17 +30,20 @@ if __name__ == '__main__':
       edges = set()
       for e in range(int(args.e)):
          
-         this_vertex  = e if e < len(vertices) else random.choice(vertices)
-         other_vertex = random.choice(vertices)
-         
-         # No cyclic graphs
-         if this_vertex != other_vertex:
+         success = False
+         while not success:
             
-            # Don't write the same edge twice
-            edge = frozenset([this_vertex, other_vertex])
-            if not edge in edges:
-               edges.add(edge)
+            this_vertex  = e if e < len(vertices) else random.choice(vertices)
+            other_vertex = random.choice(vertices)
+            
+            # No cyclic graphs
+            if this_vertex != other_vertex:
                
-               f.write('e {0} {1} {2}\n'.format(this_vertex, other_vertex, random.choice(Label.EDGE)))
-               
-               
+               # Don't write the same edge twice
+               edge = frozenset([this_vertex, other_vertex])
+               if not edge in edges:
+                  edges.add(edge)
+                  
+                  f.write('e {0} {1} {2}\n'.format(this_vertex, other_vertex, random.choice(Label.EDGE)))
+                  
+                  

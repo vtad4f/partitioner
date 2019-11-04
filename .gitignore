@@ -8,4 +8,4 @@ build/
 
 # frequent subgraph mining
 fsm/
-
+output.txt
