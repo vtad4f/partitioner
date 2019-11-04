@@ -17,6 +17,6 @@ function _Run
    popd > /dev/null 2>&1
 }
 
-function run.gen { _Run src-py python gen.py $1 $2 ; }
-function run.fsm { _Run fsm ./gSpan-64 ../src-py/random_graph ; }
+function gen { _Run src-py python gen.py $1 $2 ; less src-py/random_graph ; }
+function fsm { _Run fsm ./gSpan-64 ../src-py/random_graph ; less fsm/output.txt ; }
 
