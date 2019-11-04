@@ -3,50 +3,21 @@
 #include "Graph.h"
 
 
-namespace
-{
-
 ////////////////////////////////////////////////////////////////////////////////
 ///
 ///   @brief  Populate the graph from the file
 ///
+///   @param limit  Limit the number of lines read from the file
+///   @param offset  Start at this line in the file
+///
 ////////////////////////////////////////////////////////////////////////////////
-void Parse(const char* filePath, Graph* pGraph)
+void Graph::Parse(Graph* pGraph, const char* filePath, uint64_t limit, uint64_t offset)
 {
    std::ifstream ifs(filePath);
    if (ifs && ifs.is_open())
    {
       
    }
-}
-
-} // end namespace
-
-
-////////////////////////////////////////////////////////////////////////////////
-///
-///   @brief  Constructor
-///
-///   @param limit  Limit the number of lines read from the file
-///   @param offset  Start at this line in the file
-///
-////////////////////////////////////////////////////////////////////////////////
-Graph::Graph(const char* filePath, uint64_t limit, uint64_t offset)
-   : m_Claimed()
-   , m_NodeIDs()
-{
-   
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-///
-///   @brief  Destructor
-///
-////////////////////////////////////////////////////////////////////////////////
-Graph::~Graph()
-{
-   
 }
 
 
