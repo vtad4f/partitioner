@@ -1,9 +1,0 @@
-t 0
-v 0 n
-v 1 j
-v 2 p
-v 3 k
-e 1 0 C
-e 2 0 R
-e 3 1 F
-e 0 3 Q
