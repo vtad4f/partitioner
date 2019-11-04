@@ -16,7 +16,12 @@ void Graph::Parse(Graph* pGraph, const char* filePath, uint64_t limit, uint64_t 
    std::ifstream ifs(filePath);
    if (ifs && ifs.is_open())
    {
-      
+      std::string line;
+      while (std::getline(ifs, line))
+      {
+         pGraph->m_NodeIDs.push_back();
+      }
+      pGraph->m_Claimed.resize();
    }
 }
 
