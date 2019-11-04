@@ -22,7 +22,7 @@ if __name__ == '__main__':
    
    # Create file with single graph
    with open('random_graph', 'w') as f:
-      f.write('t 0\n') # TODO - the binary may expect a # after the t
+      f.write('t # 0\n')
       
       # Add vertices
       vertices = range(int(args.v))
