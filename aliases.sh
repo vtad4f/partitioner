@@ -9,10 +9,14 @@ function reload
    git rebase origin/master
 }
 
-function run.fsm
+
+function _Run
 {
-   pushd fsm > /dev/null 2>&1
-   time ./gSpan-64 gIndex/dataset > output.txt 2>&1
+   pushd "$1" > /dev/null 2>&1
+   time "${@:2}" > output.txt 2>&1
    popd > /dev/null 2>&1
 }
+
+function run.gen { _Run src-py python gen.py $1 $2 ; }
+function run.fsm { _Run fsm ./gSpan-64 ../src-py/random_graph ; }
 
