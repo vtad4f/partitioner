@@ -6,9 +6,7 @@ function x { git update-index --chmod=+x $1 ; }
 function reload
 {
    git fetch
-   git branch -m local
-   git checkout -b master origin/master
-   git branch -d local
+   git rebase origin/master
 }
 
 function run.fsm
