@@ -1,4 +1,5 @@
 
+
 # python
 __pycache__/
 *.pyc
@@ -8,5 +9,6 @@ random_graph
 build/
 
 # frequent subgraph mining
-fsm/
+GraMi/
 output.txt
+

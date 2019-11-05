@@ -5,14 +5,20 @@ import random
 
 
 class Label:
-   INT_VERTEX = list(range(3))
-   INT_EDGE   = list(range(2))
+   """
+      BRIEF  
+   """
+   VERTEX = list(range(10))
+   EDGE   = list(range(10))
    
-   STR_VERTEX = "abcdefghijklmnopqrstuvwxyz"
-   STR_EDGE   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+class Path:
+   OUTPUT = '../GraMi/Datasets/random_graph.lg'
    
    
 if __name__ == '__main__':
+   """
+      BRIEF  Main execution
+   """
    
    # Parse args
    parser = argparse.ArgumentParser()
@@ -21,13 +27,13 @@ if __name__ == '__main__':
    args = parser.parse_args()
    
    # Create file with single graph
-   with open('random_graph', 'w') as f:
-      f.write('t # 0\n')
+   with open(Path.OUTPUT, 'w') as f:
+      f.write('# t 1\n')
       
       # Add vertices
       vertices = range(int(args.v))
       for v in vertices:
-         f.write('v {0} {1}\n'.format(v, random.choice(Label.INT_VERTEX)))
+         f.write('v {0} {1}\n'.format(v, random.choice(Label.VERTEX)))
          
       # Add edges
       edges = set()
@@ -51,6 +57,6 @@ if __name__ == '__main__':
                   success = True
                   
                   random.shuffle(directed)
-                  f.write('e {0} {1} {2}\n'.format(directed[0], directed[1], random.choice(Label.INT_EDGE)))
+                  f.write('e {0} {1} {2}\n'.format(directed[0], directed[1], random.choice(Label.EDGE)))
                   
                   
