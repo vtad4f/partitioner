@@ -18,7 +18,7 @@ function _Run
 }
 
 function gen      { _Run src-py python gen.py $@ ; }
-function gen.less { less src-py/random_graph ; }
+function gen.less { less GraMi/random_graph/Datasets/random_graph.lg ; }
 
-function grami      { _Run GraMi ./grami random_graph.lg -s 2 -t 0 -p 0 > GraMi/output.txt ; }
+function grami      { _Run GraMi ./grami -f random_graph.lg -s 2 -t 0 -p 0 > GraMi/output.txt ; }
 function grami.less { less GraMi/output.txt ; }
