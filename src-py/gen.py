@@ -11,9 +11,6 @@ class Label:
    VERTEX = list(range(10))
    EDGE   = list(range(10))
    
-class Path:
-   OUTPUT = '../GraMi/Datasets/random_graph.lg'
-   
    
 if __name__ == '__main__':
    """
@@ -22,12 +19,13 @@ if __name__ == '__main__':
    
    # Parse args
    parser = argparse.ArgumentParser()
+   parser.add_argument('path')
    parser.add_argument('v')
    parser.add_argument('e')
    args = parser.parse_args()
    
    # Create file with single graph
-   with open(Path.OUTPUT, 'w') as f:
+   with open(args.path, 'w') as f:
       f.write('# t 1\n')
       
       # Add vertices

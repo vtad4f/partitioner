@@ -9,9 +9,6 @@ class Regex:
    VERTICES = re.compile(r'v ([0-9]+) ([0-9]+)', re.MULTILINE)
    EDGES    = re.compile(r'e ([0-9]+) ([0-9]+) ([0-9]+)', re.MULTILINE)
    
-class Path:
-   INPUT = '../GraMi/output.txt'
-   
    
 class Edge(object):
    """
@@ -22,10 +19,10 @@ class Edge(object):
       """
          BRIEF  Constructor
 
-         PARAM labels  should be (v1 label, v2 label, edge label)
+         PARAM labels  should be (vertex1 label, vertex2 label, edge label)
       """
-      self.vertices = sorted(labels[:2])
-      self.label = labels[-1]
+      self.vertices = sorted(components[:2])
+      self.label = labels[2]
       
    def __repr__(self):
       """
