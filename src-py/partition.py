@@ -99,16 +99,35 @@ class Graph(object):
       """
       self.vertices = []
       self.edges = []
+      self.pending = set()
       
    def AddVertex(self, vertices):
       """
          BRIEF  
       """
-      if self.vertices:
-         pass
-      else:
-         pass
+      if not vertices or (self.vertices and not self.pending):
+         return None
          
+      if self.vertices:
+         pass # TODO
+         
+      else:
+         i = random.randint(0, len(vertices) - 1)
+         v = vertices.pop(vertices.keys()[i])
+         self.vertices.append(v)
+         return v
+         
+   def AddEdges(self, edges, vertex):
+      """
+         BRIEF  
+      """
+      for i in reversed(range(len(edges)))
+         if vertex in edges[i].vertices:
+            e = edges.pop(i)
+            self.edges.append(e)
+            self.pending.update(e.vertices)
+      self.pending.remove(vertex)
+      
    def __repr__(self):
       """
          BRIEF  Conversion to a string
@@ -129,14 +148,15 @@ if __name__ == '__main__':
    with open(args.input_fpath,'r') as f:
       content = f.read()
       
-   vertices = map(Vertex, Regex.VERTICES.findall(content))
+   vertices = dict([(v.index, v) for v in map(Vertex, Regex.VERTICES.findall(content))])
    edges = map(Edge, Regex.EDGES.findall(content))
    
    partitions = [Graph()] * args.n
-   # while vertices:
+   while vertices:
       
-      # for graph in partitions:
-         # if not graph.AddVertex(vertices):
-            # break
+      for graph in partitions:
+         v = graph.AddVertex(vertices):
+         if v:
+            graph.AddEdges(edges, v)
             
             
