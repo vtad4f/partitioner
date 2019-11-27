@@ -3,6 +3,7 @@
 import argparse
 import random
 import re
+import sys
 
 
 class Regex:
@@ -99,40 +100,52 @@ class Graph(object):
       """
       self.vertices = []
       self.edges = []
-      self.pending = set()
+      self.pending_v = set()
       
    def AddVertex(self, vertices):
       """
-         BRIEF  
+         BRIEF  If no vertices have been added yet, pick a random one
+                Else pick a random adjacent vertex
       """
-      if not vertices or (self.vertices and not self.pending):
+      if not vertices:
          return None
          
-      if self.vertices:
-         pass # TODO
-         
-      else:
+      if not self.vertices:
          i = random.randint(0, len(vertices) - 1)
-         v = vertices.pop(vertices.keys()[i])
+         v_index = list(vertices.keys())[i]
+         
+         v = vertices.pop(v_index)
          self.vertices.append(v)
          return v
          
+      while self.pending_v:
+         sys.stdout.flush()
+         i = random.randint(0, len(self.pending_v) - 1)
+         v_index = list(self.pending_v)[i]
+         self.pending_v.remove(v_index)
+         
+         if v_index in vertices:
+            
+            v = vertices.pop(v_index)
+            self.vertices.append(v)
+            return v
+            
    def AddEdges(self, edges, vertex):
       """
-         BRIEF  
+         BRIEF  Take every edge that contains the vertex
       """
-      for i in reversed(range(len(edges)))
-         if vertex in edges[i].vertices:
+      for i in reversed(range(len(edges))):
+         if vertex.index in edges[i].vertices:
             e = edges.pop(i)
             self.edges.append(e)
-            self.pending.update(e.vertices)
-      self.pending.remove(vertex)
+            self.pending_v.update(e.vertices)
+      self.pending_v.discard(vertex.index)
       
    def __repr__(self):
       """
          BRIEF  Conversion to a string
       """
-      return "# t 1\n{0}\n{1}".format('\n'.join(self.vertices), '\n'.join(self.edges))
+      return "# t 1\n{0}\n{1}".format('\n'.join(map(str,self.vertices)), '\n'.join(map(str, self.edges)))
       
       
 if __name__ == '__main__':
@@ -149,14 +162,17 @@ if __name__ == '__main__':
       content = f.read()
       
    vertices = dict([(v.index, v) for v in map(Vertex, Regex.VERTICES.findall(content))])
-   edges = map(Edge, Regex.EDGES.findall(content))
+   edges = list(map(Edge, Regex.EDGES.findall(content)))
    
    partitions = [Graph()] * args.n
    while vertices:
       
       for graph in partitions:
-         v = graph.AddVertex(vertices):
+         v = graph.AddVertex(vertices)
          if v:
             graph.AddEdges(edges, v)
             
-            
+   for graph in partitions:
+      print(graph)
+      
+      
