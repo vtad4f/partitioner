@@ -1,6 +1,6 @@
 
 
-import argparse
+import glob
 import os
 import random
 import re
@@ -176,7 +176,7 @@ class Graph(object):
       )
       
       
-def Main(input_fpath, n_partitions):
+def Main(input_fpath, n_partitions, do_print=False):
    """
       BRIEF  Main execution (all but cmd line parsing)
    """
@@ -203,34 +203,44 @@ def Main(input_fpath, n_partitions):
       graph.CutEdges()
       
    # Print the partitions
-   for graph in partitions:
-      print(graph)
-      print("len(cut)={0}".format(len(graph.cut)))
-      print(' ')
+   if do_print:
+      for graph in partitions:
+         print(graph)
+         print("len(cut)={0}".format(len(graph.cut)))
+         print(' ')
       
    # Manipulate vertex indices
    for graph in partitions:
       graph.ResetIndices()
       
-   # Write partitions to files
+   # Clear existing partitions from output dir
    output_dirpath = os.path.dirname(input_fpath)
+   for fpath in glob.glob(output_dirpath + '/partition*'):
+      os.remove(fpath)
+      
+   # Write partitions to files
    _, output_ext = os.path.splitext(input_fpath)
    
+   output_fnames = []
    for i, graph in enumerate(partitions):
-      output_fpath = output_dirpath + os.sep + 'partition' + str(i) + output_ext
+      output_fname = 'partition' + str(i) + output_ext
+      output_fnames.append(output_fname)
       
-      with open(output_fpath, 'w') as f:
+      with open(os.path.join(output_dirpath, output_fname), 'w') as f:
          f.write(str(graph))
          
-         
+   return output_fnames
+   
+   
 if __name__ == '__main__':
    """
       BRIEF  Main execution (including cmd line parsing)
    """
+   import argparse
    parser = argparse.ArgumentParser()
    parser.add_argument('input_fpath')
    parser.add_argument('n_partitions', type=int)
    args = parser.parse_args()
-   Main(args.input_fpath, args.n_partitions)
+   Main(args.input_fpath, args.n_partitions, do_print=True)
    
    

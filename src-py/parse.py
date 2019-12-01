@@ -21,7 +21,7 @@ class Edge(object):
 
          PARAM labels  should be (vertex1 label, vertex2 label, edge label)
       """
-      self.vertices = sorted(components[:2])
+      self.vertices = sorted(labels[:2])
       self.label = labels[2]
       
    def __repr__(self):
@@ -90,6 +90,13 @@ class SubGraph(object):
       return hash(str(self))
       
       
+def SubGraphs(grami_output):
+   """
+      BRIEF  Get a set of subgraphs from the grami output
+   """
+   return frozenset(map(SubGraph, Regex.SUBGRAPH.findall(grami_output)))
+   
+   
 if __name__ == '__main__':
    """
       BRIEF  Main execution
@@ -98,7 +105,7 @@ if __name__ == '__main__':
    
    for path in sys.argv[1:]:
       with open(path, 'r') as f:
-         subgraphs |= frozenset(map(SubGraph, Regex.SUBGRAPH.findall(f.read())))
+         subgraphs |= SubGraphs(f.read())
          
    for s in sorted(subgraphs):
       print(s)
