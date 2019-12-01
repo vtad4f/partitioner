@@ -98,8 +98,9 @@ class Graph(object):
       """
          BRIEF  Constructor
       """
-      self.vertices = []
+      self.vertices = dict()
       self.edges = []
+      self.cut = []
       self.pending_v = set()
       
    def AddVertex(self, vertices):
@@ -115,7 +116,7 @@ class Graph(object):
          v_index = list(vertices.keys())[i]
          
          v = vertices.pop(v_index)
-         self.vertices.append(v)
+         self.vertices[v.index] = v
          return v
          
       while self.pending_v:
@@ -126,7 +127,7 @@ class Graph(object):
          if v_index in vertices:
             
             v = vertices.pop(v_index)
-            self.vertices.append(v)
+            self.vertices[v.index] = v
             return v
             
    def AddEdges(self, edges, vertex):
@@ -140,29 +141,44 @@ class Graph(object):
             self.pending_v.update(e.vertices)
       self.pending_v.discard(vertex.index)
       
+   def CutEdges(self):
+      """
+         BRIEF  Remove every edge without both vertices in the graph
+      """
+      for i in reversed(range(len(self.edges))):
+         v1, v2 = self.edges[i].vertices
+         if not v1 in self.vertices or not v2 in self.vertices:
+            e = self.edges.pop(i)
+            self.cut.append(e)
+            
    def __repr__(self):
       """
          BRIEF  Conversion to a string
       """
-      return "# t 1\n{0}\n{1}".format('\n'.join(map(str, sorted(self.vertices))), '\n'.join(map(str, sorted(self.edges))))
+      return "# t 1\n{0}\n{1}\nlen(cut)={2}".format('\n'.join(map(str, sorted(self.vertices.values()))), '\n'.join(map(str, sorted(self.edges))), len(self.cut))
       
       
 if __name__ == '__main__':
    """
       BRIEF  Main execution
    """
+   
+   # Parse args
    parser = argparse.ArgumentParser()
    parser.add_argument('input_fpath')
    parser.add_argument('output_dirpath')
    parser.add_argument('n', type=int)
    args = parser.parse_args()
    
+   # Read input graph
    with open(args.input_fpath,'r') as f:
       content = f.read()
       
+   # Initialize vertices and edges
    vertices = dict([(v.index, v) for v in map(Vertex, Regex.VERTICES.findall(content))])
    edges = list(map(Edge, Regex.EDGES.findall(content)))
    
+   # Generate partitions
    partitions = [Graph() for _ in range(args.n)]
    while vertices:
       
@@ -171,6 +187,16 @@ if __name__ == '__main__':
          if v:
             graph.AddEdges(edges, v)
             
+   # Cut unused vertices
+   for graph in partitions:
+      graph.CutEdges()
+      
+   # Manipulate vertex indices
+   
+   
+   # Write partitions to files
+   
+   
    for graph in partitions:
       print(graph)
       print(' ')
