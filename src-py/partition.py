@@ -176,19 +176,13 @@ class Graph(object):
       )
       
       
-if __name__ == '__main__':
+def Main(input_fpath, n_partitions):
    """
-      BRIEF  Main execution
+      BRIEF  Main execution (all but cmd line parsing)
    """
-   
-   # Parse args
-   parser = argparse.ArgumentParser()
-   parser.add_argument('input_fpath')
-   parser.add_argument('n', type=int)
-   args = parser.parse_args()
    
    # Read input graph
-   with open(args.input_fpath,'r') as f:
+   with open(input_fpath,'r') as f:
       content = f.read()
       
    # Initialize vertices and edges
@@ -196,7 +190,7 @@ if __name__ == '__main__':
    edges = list(map(Edge, Regex.EDGES.findall(content)))
    
    # Generate partitions
-   partitions = [Graph() for _ in range(args.n)]
+   partitions = [Graph() for _ in range(n_partitions)]
    while vertices:
       
       for graph in partitions:
@@ -219,8 +213,8 @@ if __name__ == '__main__':
       graph.ResetIndices()
       
    # Write partitions to files
-   output_dirpath = os.path.dirname(args.input_fpath)
-   _, output_ext = os.path.splitext(args.input_fpath)
+   output_dirpath = os.path.dirname(input_fpath)
+   _, output_ext = os.path.splitext(input_fpath)
    
    for i, graph in enumerate(partitions):
       output_fpath = output_dirpath + os.sep + 'partition' + str(i) + output_ext
@@ -229,3 +223,14 @@ if __name__ == '__main__':
          f.write(str(graph))
          
          
+if __name__ == '__main__':
+   """
+      BRIEF  Main execution (including cmd line parsing)
+   """
+   parser = argparse.ArgumentParser()
+   parser.add_argument('input_fpath')
+   parser.add_argument('n_partitions', type=int)
+   args = parser.parse_args()
+   Main(args.input_fpath, args.n_partitions)
+   
+   
