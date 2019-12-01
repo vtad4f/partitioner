@@ -35,7 +35,8 @@ class Vertex(object):
       """
          BRIEF  Less than operator
       """
-      return str(self) < str(other)
+      return ( self.index <  other.index
+        ) or ( self.index == other.index and self.label < other.label )
       
    def __eq__(self, other):
       """
@@ -74,7 +75,9 @@ class Edge(object):
       """
          BRIEF  Less than operator
       """
-      return str(self) < str(other)
+      return ( self.vertices[0] <  other.vertices[0]
+        ) or ( self.vertices[0] == other.vertices[0] and self.vertices[1] <  other.vertices[1]
+        ) or ( self.vertices[0] == other.vertices[0] and self.vertices[1] == other.vertices[1] and self.label < other.label )
       
    def __eq__(self, other):
       """
@@ -167,7 +170,10 @@ class Graph(object):
       """
          BRIEF  Conversion to a string
       """
-      return "# t 1\n{0}\n{1}".format('\n'.join(map(str, sorted(self.vertices.values()))), '\n'.join(map(str, sorted(self.edges))))
+      return "# t 1\n{0}\n{1}".format(
+         '\n'.join(str(self.vertices[v_index]) for v_index in sorted(self.vertices)),
+         '\n'.join(map(str, sorted(self.edges)))
+      )
       
       
 if __name__ == '__main__':
