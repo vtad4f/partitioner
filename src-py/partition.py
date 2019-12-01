@@ -22,8 +22,8 @@ class Vertex(object):
 
          PARAM components  should be (vertex index, vertex label)
       """
-      self.index = components[0]
-      self.label = components[1]
+      self.index = int(components[0])
+      self.label = int(components[1])
       
    def __repr__(self):
       """
@@ -61,8 +61,8 @@ class Edge(object):
 
          PARAM components  should be (vertex1 index, vertex2 index, edge label)
       """
-      self.vertices = sorted(components[:2])
-      self.label = components[2]
+      self.vertices = sorted(map(int, components[:2]))
+      self.label = int(components[2])
       
    def __repr__(self):
       """
@@ -151,6 +151,18 @@ class Graph(object):
             e = self.edges.pop(i)
             self.cut.append(e)
             
+   def ResetIndices(self):
+      """
+         BRIEF  Reset vertex indices to start at 0
+      """
+      for i, v_index in enumerate(sorted(self.vertices)):
+         self.vertices[v_index].index = i # keep the original indices as keys
+         
+      for edge in self.edges:
+         for i in range(len(edge.vertices)):
+            v_index = edge.vertices[i]
+            edge.vertices[i] = self.vertices[v_index].index # Override with new indices
+            
    def __repr__(self):
       """
          BRIEF  Conversion to a string
@@ -191,14 +203,16 @@ if __name__ == '__main__':
    for graph in partitions:
       graph.CutEdges()
       
-   # Manipulate vertex indices
-   
-   
-   # Write partitions to files
-   
-   
+   # Print the partitions
    for graph in partitions:
       print(graph)
       print(' ')
+      
+   # Manipulate vertex indices
+   for graph in partitions:
+      graph.ResetIndices()
+      
+   # Write partitions to files
+   
       
       
