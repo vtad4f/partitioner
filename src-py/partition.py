@@ -119,7 +119,6 @@ class Graph(object):
          return v
          
       while self.pending_v:
-         sys.stdout.flush()
          i = random.randint(0, len(self.pending_v) - 1)
          v_index = list(self.pending_v)[i]
          self.pending_v.remove(v_index)
@@ -145,7 +144,7 @@ class Graph(object):
       """
          BRIEF  Conversion to a string
       """
-      return "# t 1\n{0}\n{1}".format('\n'.join(map(str,self.vertices)), '\n'.join(map(str, self.edges)))
+      return "# t 1\n{0}\n{1}".format('\n'.join(map(str, sorted(self.vertices))), '\n'.join(map(str, sorted(self.edges))))
       
       
 if __name__ == '__main__':
@@ -164,7 +163,7 @@ if __name__ == '__main__':
    vertices = dict([(v.index, v) for v in map(Vertex, Regex.VERTICES.findall(content))])
    edges = list(map(Edge, Regex.EDGES.findall(content)))
    
-   partitions = [Graph()] * args.n
+   partitions = [Graph() for _ in range(args.n)]
    while vertices:
       
       for graph in partitions:
@@ -174,5 +173,6 @@ if __name__ == '__main__':
             
    for graph in partitions:
       print(graph)
+      print(' ')
       
       
