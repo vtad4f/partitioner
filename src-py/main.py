@@ -35,14 +35,14 @@ if __name__ == '__main__':
    """
       BRIEF  Main execution
    """
-   support = 2
-   n_partitions = 2
+   support = 3
+   n_partitions = 3
    
    original = parse.SubGraphs(GraMi(Path.GEN_GRAPH_NAME, support))
    partitioned = set()
    
    n = 0
-   while partitioned < original:
+   while len(partitioned) < len(original):
       n += 1
       
       for fname in partition.Main(Path.GEN_GRAPH, n_partitions):
