@@ -1,9 +1,9 @@
 
 
 import argparse
+import os
 import random
 import re
-import sys
 
 
 class Regex:
@@ -167,7 +167,7 @@ class Graph(object):
       """
          BRIEF  Conversion to a string
       """
-      return "# t 1\n{0}\n{1}\nlen(cut)={2}".format('\n'.join(map(str, sorted(self.vertices.values()))), '\n'.join(map(str, sorted(self.edges))), len(self.cut))
+      return "# t 1\n{0}\n{1}".format('\n'.join(map(str, sorted(self.vertices.values()))), '\n'.join(map(str, sorted(self.edges))))
       
       
 if __name__ == '__main__':
@@ -178,7 +178,6 @@ if __name__ == '__main__':
    # Parse args
    parser = argparse.ArgumentParser()
    parser.add_argument('input_fpath')
-   parser.add_argument('output_dirpath')
    parser.add_argument('n', type=int)
    args = parser.parse_args()
    
@@ -206,6 +205,7 @@ if __name__ == '__main__':
    # Print the partitions
    for graph in partitions:
       print(graph)
+      print("len(cut)={0}".format(len(graph.cut)))
       print(' ')
       
    # Manipulate vertex indices
@@ -213,6 +213,13 @@ if __name__ == '__main__':
       graph.ResetIndices()
       
    # Write partitions to files
+   output_dirpath = os.path.dirname(args.input_fpath)
+   _, output_ext = os.path.splitext(args.input_fpath)
    
+   for i, graph in enumerate(partitions):
+      output_fpath = output_dirpath + os.sep + 'partition' + str(i) + output_ext
       
-      
+      with open(output_fpath, 'w') as f:
+         f.write(str(graph))
+         
+         

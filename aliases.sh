@@ -26,5 +26,5 @@ function grami.less { less $GRAMI_OUTPUT ; }
 
 function parse      { _Run src-py py parse.py ../$GRAMI_OUTPUT ; }
 
-function partition  { _Run src-py py partition.py ../$GEN_GRAPH_PATH output $@ ; }
+function partition  { _Run src-py py partition.py ../$GEN_GRAPH_PATH $@ ; }
 
