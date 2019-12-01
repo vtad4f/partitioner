@@ -1,5 +1,6 @@
 
 
+import gen
 import parse
 import partition
 import subprocess
@@ -35,8 +36,12 @@ if __name__ == '__main__':
    """
       BRIEF  Main execution
    """
-   support = 3
+   n_vertices   = 100
+   n_edges      = 500
+   support      = 4
    n_partitions = 3
+   
+   gen.Main(Path.GEN_GRAPH, n_vertices, n_edges)
    
    original = parse.SubGraphs(GraMi(Path.GEN_GRAPH_NAME, support))
    partitioned = set()

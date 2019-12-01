@@ -12,30 +12,23 @@ class Label:
    EDGE   = list(range(10))
    
    
-if __name__ == '__main__':
+def Main(fpath, n_vertices, n_edges):
    """
-      BRIEF  Main execution
+      BRIEF  Main execution (all but cmd line parsing)
    """
-   
-   # Parse args
-   parser = argparse.ArgumentParser()
-   parser.add_argument('path')
-   parser.add_argument('v')
-   parser.add_argument('e')
-   args = parser.parse_args()
    
    # Create file with single graph
-   with open(args.path, 'w') as f:
+   with open(fpath, 'w') as f:
       f.write('# t 1\n')
       
       # Add vertices
-      vertices = range(int(args.v))
+      vertices = range(n_vertices)
       for v in vertices:
          f.write('v {0} {1}\n'.format(v, random.choice(Label.VERTEX)))
          
       # Add edges
       edges = set()
-      for e in range(int(args.e)):
+      for e in range(n_edges):
          
          success = False
          while not success:
@@ -58,3 +51,14 @@ if __name__ == '__main__':
                   f.write('e {0} {1} {2}\n'.format(directed[0], directed[1], random.choice(Label.EDGE)))
                   
                   
+if __name__ == '__main__':
+   """
+      BRIEF  Main execution (including cmd line parsing)
+   """
+   parser = argparse.ArgumentParser()
+   parser.add_argument('path')
+   parser.add_argument('v', type=int)
+   parser.add_argument('e', type=int)
+   args = parser.parse_args()
+   Main(args.path, args.v, args.e)
+   
