@@ -104,7 +104,7 @@ if __name__ == '__main__':
                   sg_count[sg] += p_support
                else:
                   sg_count[sg] = p_support
-            
+                  
             print('.', end='')
             sys.stdout.flush()
             
@@ -117,7 +117,7 @@ if __name__ == '__main__':
             last_len = len(partitioned_sg)
             print('{0}/{1}'.format(len(partitioned_sg), len(original_sg)), end='')
             sys.stdout.flush()
-         
+            
       # Output results
       print('\n{0} iterations'.format(i + 1))
       print("{:0.2f} seconds for the analysis".format(time.monotonic() - start))
@@ -128,5 +128,5 @@ if __name__ == '__main__':
             print(subgraph)
             
       sys.stdout.flush()
-   
-   
+      
+      
