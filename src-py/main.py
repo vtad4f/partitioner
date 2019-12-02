@@ -46,41 +46,47 @@ if __name__ == '__main__':
    parser.add_argument('percent_edges',  type=float, help=' of max n edges')
    parser.add_argument('support',        type=int)
    parser.add_argument('n_partitions',   type=int)
-   parser.add_argument('--repartitions', type=int, default=24, help='max attempts', metavar='N')
+   parser.add_argument('--skip',         action='store_true', help='skip graph gen')
+   parser.add_argument('--p-sup',        type=int, default=0, help='support per partition', metavar='N')
+   parser.add_argument('--repart',       type=int, default=24, help='max n repartitions', metavar='N')
    args = parser.parse_args()
    
-   # Percent is applied to the max number of edges
+   # Set values
    min_n_edges = args.n_vertices
    max_n_edges = args.n_vertices * (args.n_vertices - 1) / 2
    n_edges = int(args.percent_edges * max_n_edges)
+   
+   p_support = args.p_sup if args.p_sup else args.support
    
    # Validate args
    assert(0.0 < args.percent_edges <= 1.0)
    assert(min_n_edges <= n_edges <= max_n_edges)
    assert(args.support >= 2)
    assert(args.n_partitions >= 2)
+   assert(p_support * args.n_partitions >= args.support)
    
    # Generate random graph
-   gen.Main(Path.GEN_GRAPH, args.n_vertices, n_edges)
-   print('finished generating random graph!')
-   sys.stdout.flush()
-   
+   if not args.skip:
+      gen.Main(Path.GEN_GRAPH, args.n_vertices, n_edges)
+      print('finished generating random graph!')
+      sys.stdout.flush()
+      
    # Parse with GraMi
    start = time.monotonic()
-   original = parse.SubGraphs(GraMi(Path.GEN_GRAPH_NAME, args.support))
-   print('{0} total subraphs'.format(len(original))) 
+   original_sg = parse.SubGraphs(GraMi(Path.GEN_GRAPH_NAME, args.support))
+   print('{0} total subraphs'.format(len(original_sg))) 
    print("{:0.2f} seconds for the analysis".format(time.monotonic() - start))
    sys.stdout.flush()
    
    # Skip partitioning if there are no subgraphs to be found
-   if len(original) > 0:
-      partitioned = set()
-      last_len = len(partitioned)
+   if len(original_sg) > 0:
+      partitioned_sg = set()
+      last_len = len(partitioned_sg)
       start = time.monotonic()
       
       # Repartition until we find all the subgraphs
-      for i in range(args.repartitions + 1): 
-         if original and len(partitioned) >= len(original):
+      for i in range(args.repart + 1): 
+         if original_sg and len(partitioned_sg) >= len(original_sg):
             break
             
          # Generate partitions
@@ -89,22 +95,34 @@ if __name__ == '__main__':
          sys.stdout.flush()
          
          # Run GraMi against each partition
+         sg_count = dict()
+         
          for fname in partitions:
-            partitioned |= parse.SubGraphs(GraMi(fname, args.support))
+            for sg in parse.SubGraphs(GraMi(fname, p_support)):
+               
+               if sg in sg_count:
+                  sg_count[sg] += p_support
+               else:
+                  sg_count[sg] = p_support
+            
             print('.', end='')
             sys.stdout.flush()
             
+         for sg, ct in sg_count.items():
+            if ct >= args.support:
+               partitioned_sg.add(sg)
+               
          # Print status
-         if len(partitioned) > last_len:
-            last_len = len(partitioned)
-            print('{0}/{1}'.format(len(partitioned), len(original)), end='')
+         if len(partitioned_sg) > last_len:
+            last_len = len(partitioned_sg)
+            print('{0}/{1}'.format(len(partitioned_sg), len(original_sg)), end='')
             sys.stdout.flush()
          
       # Output results
       print('\n{0} iterations'.format(i + 1))
       print("{:0.2f} seconds for the analysis".format(time.monotonic() - start))
       
-      impossible = partitioned - original
+      impossible = partitioned_sg - original_sg
       if impossible:
          for subgraph in sorted(impossible):
             print(subgraph)
