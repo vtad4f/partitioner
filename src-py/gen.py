@@ -1,6 +1,5 @@
 
 
-import argparse
 import random
 
 
@@ -55,6 +54,7 @@ if __name__ == '__main__':
    """
       BRIEF  Main execution (including cmd line parsing)
    """
+   import argparse
    parser = argparse.ArgumentParser()
    parser.add_argument('path')
    parser.add_argument('v', type=int)
