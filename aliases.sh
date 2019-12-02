@@ -4,6 +4,7 @@ function clean  { git clean -dfqX ; }
 function x      { git update-index --chmod=+x $1 ; }
 function reload { git fetch ; git rebase origin/master ; source aliases.sh ; }
 
+function frun   { sbatch batch.sub ; } # for mst forge
 
 function _Run
 {
@@ -17,8 +18,6 @@ GEN_GRAPH_NAME=random_graph.lg
 GEN_GRAPH_PATH=GraMi/Datasets/$GEN_GRAPH_NAME
 GRAMI_OUTPUT=GraMi/output.txt
 
-
-function run        { sbatch batch.sub ; } # for mst forge
 
 function grami      { _Run GraMi ./grami.sh -f $GEN_GRAPH_NAME -s 2 -t 0 -p 0 > $GRAMI_OUTPUT ; }
 function grami.less { less $GRAMI_OUTPUT ; }
