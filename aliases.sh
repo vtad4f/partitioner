@@ -18,6 +18,8 @@ GEN_GRAPH_PATH=GraMi/Datasets/$GEN_GRAPH_NAME
 GRAMI_OUTPUT=GraMi/output.txt
 
 
+function run        { sbatch batch.sub ; } # for mst forge
+
 function grami      { _Run GraMi ./grami.sh -f $GEN_GRAPH_NAME -s 2 -t 0 -p 0 > $GRAMI_OUTPUT ; }
 function grami.less { less $GRAMI_OUTPUT ; }
 
@@ -34,4 +36,3 @@ function setup
 {
    [[ ! -d GraMi ]] && git clone https://github.com/vtad4f/GraMi.git GraMi
 }
-
