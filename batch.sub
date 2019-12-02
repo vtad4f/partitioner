@@ -1,0 +1,10 @@
+#!/bin/bash
+#SBATCH --job-name=vtad4f_job
+#SBATCH --ntasks=1
+#SBATCH --time=0-00:10:00
+#SBATCH --export=all
+#SBATCH --out=Forge-%j.out
+
+source aliases.sh
+main
+
