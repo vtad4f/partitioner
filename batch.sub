@@ -5,6 +5,12 @@
 #SBATCH --export=all
 #SBATCH --out=Forge-%j.out
 
-source aliases.sh
-main
+function _Run
+{
+   pushd "$1" > /dev/null 2>&1
+   time "${@:2}"
+   popd > /dev/null 2>&1
+}
+
+_Run src-py py main.py
 

@@ -4,7 +4,9 @@ function clean  { git clean -dfqX ; }
 function x      { git update-index --chmod=+x $1 ; }
 function reload { git fetch ; git rebase origin/master ; source aliases.sh ; }
 
-function frun   { sbatch batch.sub ; } # for mst forge
+function frun   { sbatch batch.sub ; } # run job on mst forge
+function fls    { squeue -u vtad4f ; } # list running jobs
+function fkill  { scancel $1       ; } # kill a running job
 
 function _Run
 {
