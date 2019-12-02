@@ -18,7 +18,7 @@ GEN_GRAPH_PATH=GraMi/Datasets/$GEN_GRAPH_NAME
 GRAMI_OUTPUT=GraMi/output.txt
 
 
-function grami      { _Run GraMi ./grami -f $GEN_GRAPH_NAME -s 2 -t 0 -p 0 > $GRAMI_OUTPUT ; }
+function grami      { _Run GraMi ./grami.sh -f $GEN_GRAPH_NAME -s 2 -t 0 -p 0 > $GRAMI_OUTPUT ; }
 function grami.less { less $GRAMI_OUTPUT ; }
 
 function gen        { _Run src-py py gen.py ../$GEN_GRAPH_PATH $@ ; }
@@ -30,3 +30,7 @@ function partition  { _Run src-py py partition.py ../$GEN_GRAPH_PATH $@ ; }
 
 function main       { _Run src-py py main.py $@ ; }
 
+function setup
+{
+   [[ ! -d GraMi ]] && git clone https://github.com/vtad4f/GraMi.git GraMi
+}

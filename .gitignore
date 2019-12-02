@@ -3,12 +3,10 @@
 # python
 __pycache__/
 *.pyc
-random_graph
 
 # c++
 build/
 
 # frequent subgraph mining
 GraMi/
-output.txt
 
