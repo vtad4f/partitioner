@@ -106,7 +106,7 @@ class Graph(object):
       self.cut = []
       self.pending_v = set()
       
-   def AddVertex(self, vertices):
+   def ClaimVertex(self, vertices):
       """
          BRIEF  If no vertices have been added yet, pick a random one
                 Else pick a random adjacent vertex
@@ -133,7 +133,7 @@ class Graph(object):
             self.vertices[v.index] = v
             return v
             
-   def AddEdges(self, edges, vertex):
+   def ClaimEdges(self, edges, vertex):
       """
          BRIEF  Take every edge that contains the vertex
       """
@@ -194,9 +194,9 @@ def Main(input_fpath, n_partitions, do_print=False):
    while vertices:
       
       for graph in partitions:
-         v = graph.AddVertex(vertices)
+         v = graph.ClaimVertex(vertices)
          if v:
-            graph.AddEdges(edges, v)
+            graph.ClaimEdges(edges, v)
             
    # Cut unused vertices
    for graph in partitions:
