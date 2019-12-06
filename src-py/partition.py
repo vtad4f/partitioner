@@ -40,7 +40,7 @@ class Vertex(object):
       
    def __eq__(self, other):
       """
-         BRIEF  Equality than operator
+         BRIEF  Equality operator
       """
       return str(self) == str(other)
       
@@ -81,7 +81,7 @@ class Edge(object):
       
    def __eq__(self, other):
       """
-         BRIEF  Equality than operator
+         BRIEF  Equality operator
       """
       return str(self) == str(other)
       
@@ -208,7 +208,7 @@ def Main(input_fpath, n_partitions, do_print=False):
          print(graph)
          print("len(cut)={0}".format(len(graph.cut)))
          print(' ')
-      
+         
    # Manipulate vertex indices
    for graph in partitions:
       graph.ResetIndices()

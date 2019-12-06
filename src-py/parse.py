@@ -38,7 +38,7 @@ class Edge(object):
       
    def __eq__(self, other):
       """
-         BRIEF  Equality than operator
+         BRIEF  Equality operator
       """
       return str(self) == str(other)
       
@@ -79,7 +79,7 @@ class SubGraph(object):
       
    def __eq__(self, other):
       """
-         BRIEF  Equality than operator
+         BRIEF  Equality operator
       """
       return str(self) == str(other)
       

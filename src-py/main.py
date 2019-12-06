@@ -46,9 +46,10 @@ if __name__ == '__main__':
    parser.add_argument('percent_edges',  type=float, help=' of max n edges')
    parser.add_argument('support',        type=int)
    parser.add_argument('n_partitions',   type=int)
-   parser.add_argument('--skip',         action='store_true', help='skip graph gen')
-   parser.add_argument('--p-sup',        type=int, default=0, help='support per partition', metavar='N')
-   parser.add_argument('--repart',       type=int, default=24, help='max n repartitions', metavar='N')
+   parser.add_argument('--v-range',      type=int, default=10, help='possible range of labels [0, N)', metavar='N')
+   parser.add_argument('--e-range',      type=int, default=10, help='possible range of labels [0, N)', metavar='N')
+   parser.add_argument('--p-sup',        type=int, default=0 , help='support per partition', metavar='N')
+   parser.add_argument('--n-rep',        type=int, default=24, help='number of repartitions', metavar='N')
    args = parser.parse_args()
    
    # Set values
@@ -66,11 +67,10 @@ if __name__ == '__main__':
    assert(p_support * args.n_partitions >= args.support)
    
    # Generate random graph
-   if not args.skip:
-      gen.Main(Path.GEN_GRAPH, args.n_vertices, n_edges)
-      print('finished generating random graph!')
-      sys.stdout.flush()
-      
+   gen.Main(Path.GEN_GRAPH, args.n_vertices, n_edges, args.v_range, args.e_range)
+   print('finished generating random graph!')
+   sys.stdout.flush()
+   
    # Parse with GraMi
    start = time.monotonic()
    original_sg = parse.SubGraphs(GraMi(Path.GEN_GRAPH_NAME, args.support))
@@ -85,7 +85,7 @@ if __name__ == '__main__':
       start = time.monotonic()
       
       # Repartition until we find all the subgraphs
-      for i in range(args.repart + 1): 
+      for i in range(args.n_rep + 1): 
          if original_sg and len(partitioned_sg) >= len(original_sg):
             break
             

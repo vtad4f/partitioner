@@ -1,16 +1,9 @@
 #!/bin/bash
 #SBATCH --job-name=vtad4f_job
 #SBATCH --ntasks=1
-#SBATCH --time=0-00:10:00
+#SBATCH --time=0-24:00:00
 #SBATCH --export=all
 #SBATCH --out=Forge-%j.out
 
-function _Run
-{
-   pushd "$1" > /dev/null 2>&1
-   time "${@:2}"
-   popd > /dev/null 2>&1
-}
-
-_Run src-py py main.py
+cd src-py && python main.py 1000 .1 && cd -
 

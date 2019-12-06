@@ -3,15 +3,7 @@
 import random
 
 
-class Label:
-   """
-      BRIEF  
-   """
-   VERTEX = list(range(10))
-   EDGE   = list(range(10))
-   
-   
-def Main(fpath, n_vertices, n_edges):
+def Main(fpath, n_vertices, n_edges, v_range=10, e_range=10):
    """
       BRIEF  Main execution (all but cmd line parsing)
    """
@@ -23,7 +15,7 @@ def Main(fpath, n_vertices, n_edges):
       # Add vertices
       vertices = range(n_vertices)
       for v in vertices:
-         f.write('v {0} {1}\n'.format(v, random.choice(Label.VERTEX)))
+         f.write('v {0} {1}\n'.format(v, random.choice(range(v_range))))
          
       # Add edges
       edges = set()
@@ -47,7 +39,7 @@ def Main(fpath, n_vertices, n_edges):
                   success = True
                   
                   random.shuffle(directed)
-                  f.write('e {0} {1} {2}\n'.format(directed[0], directed[1], random.choice(Label.EDGE)))
+                  f.write('e {0} {1} {2}\n'.format(directed[0], directed[1], random.choice(range(e_range))))
                   
                   
 if __name__ == '__main__':
