@@ -4,9 +4,6 @@
 __pycache__/
 *.pyc
 
-# c++
-build/
-
 # frequent subgraph mining
 GraMi/
 
