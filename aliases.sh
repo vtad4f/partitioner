@@ -35,5 +35,10 @@ function main       { _Run src-py py main.py $@ ; }
 
 function setup
 {
-   [[ ! -d GraMi ]] && git clone https://github.com/vtad4f/GraMi.git GraMi
+   if [[ ! -d GraMi ]]; then
+      git clone https://github.com/vtad4f/GraMi.git GraMi
+      cd GraMi
+      ./build.sh
+      cd -
+   fi
 }
